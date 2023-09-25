@@ -1,0 +1,57 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.example.googleapi.SubwayRouteActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editTextStartStation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="출발역을 입력하세요" />
+
+        <EditText
+            android:id="@+id/editTextEndStation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextStartStation"
+            android:layout_marginTop="8dp"
+            android:hint="도착역을 입력하세요" />
+
+        <Button
+            android:id="@+id/buttonFindRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextEndStation"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="확인" />
+
+        <TextView
+            android:id="@+id/textViewTransfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonFindRoute"
+            android:layout_marginTop="16dp"
+            android:text="환승역: "
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTransfer"
+            android:layout_marginTop="11dp"
+            android:text="소요 시간: "
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+</ScrollView>
