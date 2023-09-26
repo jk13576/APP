@@ -64,17 +64,21 @@ class SubwayRouteActivity : AppCompatActivity() {
 
                 val transferStations = mutableListOf<String>()
 
+                var totalDurationSeconds: Long = 0 // Long으로 명시적으로 선언
+
                 for (step in leg.steps) {
                     if (step.travelMode == TravelMode.TRANSIT && step.transitDetails.line.vehicle.type == VehicleType.SUBWAY) {
                         val stationName = step.transitDetails.departureStop.name
                         val stationNameWithoutLocation = stationName.substringBefore("역")
                         if (stationNameWithoutLocation != startStationName) {
-                            transferStations.add(stationName)
+                            transferStations.add(stationNameWithoutLocation)
                         }
                     }
+                    totalDurationSeconds += step.duration.inSeconds.toLong() // Int를 Long으로 변환
                 }
 
-                val duration = leg.duration.humanReadable
+                val durationHours = totalDurationSeconds / 3600
+                val durationMinutes = (totalDurationSeconds % 3600) / 60
 
                 if (transferStations.isNotEmpty()) {
                     val transferStationsString = transferStations.joinToString(", ")
@@ -83,7 +87,7 @@ class SubwayRouteActivity : AppCompatActivity() {
                     textViewTransfer.text = "환승역이 없습니다."
                 }
 
-                textViewDuration.text = "소요 시간: $duration"
+                textViewDuration.text = "소요 시간: ${durationHours}시간 ${durationMinutes}분"
             } else {
                 textViewTransfer.text = "경로를 찾을 수 없습니다."
                 textViewDuration.text = ""
