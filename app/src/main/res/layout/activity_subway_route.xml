@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="com.example.googleapi.SubwayRouteActivity">
+    tools:context="SubwayRouteActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -53,5 +53,13 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/imageViewSubwayMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewDuration"
+            android:layout_marginTop="-396dp"
+            android:src="@drawable/subway_map"
+            android:visibility="visible" />
     </RelativeLayout>
 </ScrollView>

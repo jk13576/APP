@@ -1,10 +1,13 @@
 package com.example.googleapi
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.googleapi.R
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.google.maps.GeocodingApi
@@ -19,10 +22,15 @@ class SubwayRouteActivity : AppCompatActivity() {
     private lateinit var buttonFindRoute: Button
     private lateinit var textViewTransfer: TextView
     private lateinit var textViewDuration: TextView
+    private lateinit var imageViewSubwayMap: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_subway_route)
+
+
+        imageViewSubwayMap = findViewById(R.id.imageViewSubwayMap)
+        imageViewSubwayMap.visibility = View.VISIBLE
 
         editTextStartStation = findViewById(R.id.editTextStartStation)
         editTextEndStation = findViewById(R.id.editTextEndStation)
@@ -31,7 +39,7 @@ class SubwayRouteActivity : AppCompatActivity() {
         textViewDuration = findViewById(R.id.textViewDuration)
 
         geoApiContext = GeoApiContext.Builder()
-            .apiKey("AIzaSyAOsQfD2tdX0-rC27Aai9KSmMYtVYDF5qc")
+            .apiKey("AIzaSyAOsQfD2tdX0-rC27Aai9KSmMYtVYDF5qc") // 여기에 Google Maps API 키를 입력하세요.
             .build()
 
         buttonFindRoute.setOnClickListener {
@@ -39,12 +47,15 @@ class SubwayRouteActivity : AppCompatActivity() {
         }
     }
 
+
     private fun findSubwayRoute() {
         val startStationName = editTextStartStation.text.toString()
         val endStationName = editTextEndStation.text.toString()
 
         val startLocation = geocodeLocation(startStationName)
         val endLocation = geocodeLocation(endStationName)
+
+        imageViewSubwayMap.visibility = View.GONE
 
         if (startLocation != null && endLocation != null) {
 
@@ -59,12 +70,13 @@ class SubwayRouteActivity : AppCompatActivity() {
             val result = request.await()
 
             if (result.routes.isNotEmpty()) {
+
                 val route = result.routes[0]
                 val leg = route.legs[0]
 
                 val transferStations = mutableListOf<String>()
 
-                var totalDurationSeconds: Long = 0 // Long으로 명시적으로 선언
+                var totalDurationSeconds: Long = 0
 
                 for (step in leg.steps) {
                     if (step.travelMode == TravelMode.TRANSIT && step.transitDetails.line.vehicle.type == VehicleType.SUBWAY) {
@@ -74,7 +86,7 @@ class SubwayRouteActivity : AppCompatActivity() {
                             transferStations.add(stationNameWithoutLocation)
                         }
                     }
-                    totalDurationSeconds += step.duration.inSeconds.toLong() // Int를 Long으로 변환
+                    totalDurationSeconds += step.duration.inSeconds.toLong()
                 }
 
                 val durationHours = totalDurationSeconds / 3600
@@ -98,6 +110,7 @@ class SubwayRouteActivity : AppCompatActivity() {
         }
     }
 
+
     private fun geocodeLocation(locationName: String): LatLng? {
         val geocodingResult = GeocodingApi.geocode(geoApiContext, locationName).await()
 
@@ -109,5 +122,6 @@ class SubwayRouteActivity : AppCompatActivity() {
         return null
     }
 }
+
 
 
